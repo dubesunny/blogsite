@@ -16,7 +16,8 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-    <x-admin.sidebar.item name="User" icon="user" href="{{ route('user.index') }}" class="{{request()->is('user*') ? 'active':''}}" />
+    <x-admin.sidebar.item name="User" icon="fa fa-user" href="{{ route('user.index') }}" class="{{request()->is('user*') ? 'active':''}}" />
+    <x-admin.sidebar.item name="Category" icon="fa fa-bars" href="{{ route('category.index') }}" class="{{ request()->is('category.*') ? 'active':'' }}"/>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
