@@ -4,6 +4,12 @@ $(document).ready(function () {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
+    $('.select2').select2();
+    $('.summernote').summernote({
+        height: 150
+    });
+
+    $('.dropify').dropify();
     /** Open Modal */
     $(document).on("click", ".openModal", function (e) {
         let url = $(this).attr("data-url");
