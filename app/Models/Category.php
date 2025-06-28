@@ -15,4 +15,8 @@ class Category extends Model
         'slug',
         'status'
     ];
+
+    public function posts(){
+        return $this->belongsToMany(Post::class,'posts_categories','category_id','post_id');
+    }
 }

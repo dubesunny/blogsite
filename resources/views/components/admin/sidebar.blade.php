@@ -11,15 +11,22 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <x-admin.sidebar.item name="Dashboard" icon="tachometer-alt" href="{{ route('dashboard') }}" class="{{request()->is('/') ? 'active':''}}" />
+    <x-admin.sidebar.item name="Dashboard" icon="fa fa-tachometer-alt" href="{{ route('dashboard') }}"
+        class="{{ request()->is('/') ? 'active' : '' }}" />
 
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-    <x-admin.sidebar.item name="User" icon="fa fa-user" href="{{ route('user.index') }}" class="{{request()->is('user*') ? 'active':''}}" />
+    <x-admin.sidebar.item name="User" icon="fa fa-user" href="{{ route('user.index') }}"
+        class="{{ request()->is('user*') ? 'active' : '' }}" />
+    <hr class="sidebar-divider d-none d-md-block">
+    <x-admin.sidebar.item name="Category" icon="fa fa-bars" href="{{ route('category.index') }}"
+        class="{{ request()->is('category*') ? 'active' : '' }}" />
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
-    <x-admin.sidebar.item name="Category" icon="fa fa-bars" href="{{ route('category.index') }}" class="{{ request()->is('category.*') ? 'active':'' }}"/>
+    <x-admin.sidebar.item name="Post" icon="fa fa-image" href="{{ route('post.index') }}"
+        class="{{ request()->is('post*') ? 'active' : '' }}" />
+    <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

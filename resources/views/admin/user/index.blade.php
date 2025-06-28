@@ -21,16 +21,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
+                    @if (!$users->isEmpty())
+                        @foreach ($users as $user)
+                            <tr>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->phone }}</td>
+                                <td><span
+                                        class="{{ $user->status == 'active' ? 'text-success' : 'text-danger' }}">{{ ucwords($user->status) }}</span>
+                                </td>
+                                <td><button class="btn btn-primary openModal" data-title="Edit User"
+                                        data-url="{{ route('user.edit', $user->id) }}"><i
+                                            class="fa fa-edit"></i></button> <button
+                                        class="btn btn-danger deleteHandler"
+                                        data-url="{{ route('user.destroy', $user->id) }}"><i
+                                            class="fa fa-trash"></i></button></td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td>{{$user->id}}</td>
-                            <td>{{$user->name}}</td>
-                             <td>{{$user->email}}</td>
-                             <td>{{$user->phone}}</td>
-                              <td><span class="{{$user->status == 'active' ? 'text-success':'text-danger'}}">{{ucwords($user->status)}}</span></td>
-                              <td><button class="btn btn-primary openModal" data-title="Edit User" data-url="{{route('user.edit',$user->id)}}" ><i class="fa fa-edit"></i></button> <button class="btn btn-danger deleteHandler" data-url="{{route('user.destroy',$user->id)}}"><i class="fa fa-trash"></i></button></td>
+                            <td colspan="6" class="text-center"><span class="text-secondary">No records found</span>
+                            </td>
                         </tr>
-                    @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

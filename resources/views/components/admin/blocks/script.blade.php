@@ -15,6 +15,18 @@
 <!-- Page level custom scripts -->
 <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
 <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
-<script src="{{ asset('admin/assets/vendor/toastr/toastr.min.js')}}"></script>
+<script src="{{ asset('admin/assets/vendor/toastr/toastr.min.js') }}"></script>
 <script src="{{ asset('admin/js/custom.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{ asset('admin/assets/vendor/summernote-0.9.0-dist/summernote-bs4.min.js') }}"></script>
+<script src="{{ asset('admin/assets/vendor/dropify/js/dropify.js') }}"></script>
+<script>
+    @if (Session::has('success'))
+        toastr.success('{{ Session::get('success') }}');
+    @endif
+
+    @if (Session::has('error'))
+        toastr.error('{{ Session::get('error') }}');
+    @endif
+</script>
 @stack('script')

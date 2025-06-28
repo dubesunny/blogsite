@@ -9,4 +9,25 @@ class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'user_id',
+        'slug',
+        'image',
+        'excerpt',
+        'description',
+        'status'
+    ];
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function categories(){
+        return $this->belongsToMany(Category::class,'posts_categories','post_id','category_id');
+    }
+
+    public function getImageAttribute($value){
+        return asset('storage/'.$value);
+    }
 }
