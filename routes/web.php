@@ -12,3 +12,33 @@ Route::get('/', function () {
 Route::resource('user', UserController::class);
 Route::resource('category', CategoryController::class);
 Route::resource('post',PostController::class);
+
+Route::group(
+    [
+        'prefix' => 'user',
+        'as'=> 'user',
+    ],
+    function () {
+        Route::post('/getUserByFilter',[UserController::class,'getUserByFilter'])->name('filter');
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'category',
+        'as'=> 'category',
+    ],
+    function () {
+        Route::post('/getCategoryByFilter',[CategoryController::class,'getCategoryByFilter'])->name('filter');
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'post',
+        'as'=> 'post',
+    ],
+    function () {
+        Route::post('/getPostByFilter',[PostController::class,'getPostByFilter'])->name('filter');
+    }
+);

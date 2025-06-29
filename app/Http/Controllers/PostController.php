@@ -113,4 +113,17 @@ class PostController extends Controller
          return response()->json(['error' => $e->getMessage()]);
        }
     }
+
+    public function getPostByFilter(Request $request){
+         try{
+            if($request->filter != ''){
+                $posts = Post::whereStatus($request->filter)->get();
+            }else{
+                $posts = Post::all();
+            }
+            return view('admin.post.table',compact('posts'));
+        }catch(Exception $e){
+            return response()->json(['error'=> $e->getMessage()]);
+         }
+    }
 }

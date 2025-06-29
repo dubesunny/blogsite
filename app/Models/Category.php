@@ -19,4 +19,8 @@ class Category extends Model
     public function posts(){
         return $this->belongsToMany(Post::class,'posts_categories','category_id','post_id');
     }
+
+    public function getImageAttribute($value){
+        return asset('storage/'.$value);
+    }
 }

@@ -87,4 +87,17 @@ class UserController extends Controller
         return response()->json(['error'=> $e->getMessage()]);
        }
     }
+
+    public function getUserByFilter(Request $request){
+        try{
+            if($request->filter != ''){
+                $users = User::whereStatus($request->filter)->get();
+            }else{
+                $users = User::all();
+            }
+            return view('admin.user.table',compact('users'));
+        }catch(Exception $e){
+            return response()->json(['error'=> $e->getMessage()]);
+         }
+    }
 }

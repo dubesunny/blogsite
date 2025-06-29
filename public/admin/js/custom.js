@@ -4,7 +4,9 @@ $(document).ready(function () {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
-    $('.select2').select2();
+    $('.select2').select2({
+         minimumResultsForSearch: 10
+    });
     $('.summernote').summernote({
         height: 150
     });
@@ -21,6 +23,7 @@ $(document).ready(function () {
                 $("#exampleModal").modal("show");
                 $(".modal-title").text(title);
                 $(".modal-body").html(response);
+                $('#image').dropify();
             },
         });
     });
@@ -73,4 +76,28 @@ $(document).ready(function () {
             },
         });
     });
+
+    $(document).on('change','.filter',function(){
+        let url = $(this).attr('data-url');
+        let value = $(this).val();
+        $.ajax({
+            type:'POST',
+            url:url,
+            data:{
+                'filter':value,
+            },
+            success:function(response){
+                $(".card-body").html(response);
+            }
+        })
+        if($(this).val() != ''){
+            $('.btnClear').removeClass('d-none');
+        }else{
+            $('.btnClear').addClass('d-none');
+        }
+    })
+
+    $(document).on('click','.btnClear',function(){
+        $('.filter').val('').trigger('change');
+    })
 });

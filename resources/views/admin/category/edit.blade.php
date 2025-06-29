@@ -8,7 +8,7 @@
     <div class="form-group">
         <label for="image" class="form-label">Image <span class="text-danger">
             </span></label>
-        <input type="file" name="image" id="image" class="form-control" value="{{ $category->image }}">
+        <input type="file" name="image" id="image" class="form-control" data-default-file="{{ $category->image }}">
         <p class="error-message text-danger"></p>
     </div>
     <div class="form-group">

@@ -76,7 +76,7 @@ class CategoryController extends Controller
                     $attributes['image'] = request()->file('image')->store('category');
             }
             $category->update($attributes);
-            return response()->json(['success','Category updated successfully']);
+            return response()->json(['success'=>'Category updated successfully']);
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()]);
         }
@@ -96,5 +96,18 @@ class CategoryController extends Controller
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()]);
         }
+    }
+
+    public function getCategoryByFilter(Request $request){
+         try{
+            if($request->filter != ''){
+                $categories = Category::whereStatus($request->filter)->get();
+            }else{
+                $categories = Category::all();
+            }
+            return view('admin.category.table',compact('categories'));
+        }catch(Exception $e){
+            return response()->json(['error'=> $e->getMessage()]);
+         }
     }
 }

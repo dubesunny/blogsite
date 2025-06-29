@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="title" class="form-label">Title <span class="text-danger">
             </span></label>
-        <input type="text" name="title" id="title" class="form-control">
+        <input type="text" name="title" id="title" placeholder="Title" class="form-control">
         <p class="error-message text-danger"></p>
     </div>
     <div class="form-group">

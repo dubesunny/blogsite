@@ -4,49 +4,20 @@
     <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <button class="m-0 btn btn-sm btn-primary openModal" data-title="Add User"
-                data-url="{{ route('user.create') }}" data-toggle="modal">ADD USER</button>
+            <button class="m-0 btn btn-primary openModal" data-title="Add User" data-url="{{ route('user.create') }}"
+                data-toggle="modal">ADD USER</button>
+            <div class="fload-end">
+                <select class="form-control select2 filter" data-url="{{route('userfilter')}}">
+                    <option value="">Select Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">InActive</option>
+                </select>
+                <button class="btn btn-danger btnClear d-none">Clear</button>
+            </div>
         </div>
         <!-- Card Body -->
         <div class="card-body">
-            <table class="table" id="dataTable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!$users->isEmpty())
-                        @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td><span
-                                        class="{{ $user->status == 'active' ? 'text-success' : 'text-danger' }}">{{ ucwords($user->status) }}</span>
-                                </td>
-                                <td><button class="btn btn-primary openModal" data-title="Edit User"
-                                        data-url="{{ route('user.edit', $user->id) }}"><i
-                                            class="fa fa-edit"></i></button> <button
-                                        class="btn btn-danger deleteHandler"
-                                        data-url="{{ route('user.destroy', $user->id) }}"><i
-                                            class="fa fa-trash"></i></button></td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="6" class="text-center"><span class="text-secondary">No records found</span>
-                            </td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
+           @include('admin.user.table')
         </div>
     </div>
 </x-admin.master>
