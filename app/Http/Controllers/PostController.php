@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with('categories')->get();
         return view('admin.post.index',compact('posts'));
     }
 
@@ -54,7 +54,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-
+        return view('admin.post.show',compact('post'));
     }
 
     /**
@@ -117,9 +117,9 @@ class PostController extends Controller
     public function getPostByFilter(Request $request){
          try{
             if($request->filter != ''){
-                $posts = Post::whereStatus($request->filter)->get();
+                $posts = Post::with('categories')->whereStatus($request->filter)->get();
             }else{
-                $posts = Post::all();
+                $posts = Post::with('categories')->get();
             }
             return view('admin.post.table',compact('posts'));
         }catch(Exception $e){

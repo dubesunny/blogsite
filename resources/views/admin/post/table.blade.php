@@ -5,6 +5,7 @@
             <th scope="col">Title</th>
             <th scope="col">Image</th>
             <th scope="col">Status</th>
+            <th scope="col">Categories</th>
             <th scope="col">Created By</th>
             <th scope="col">Action</th>
         </tr>
@@ -19,11 +20,17 @@
                     <td><span
                             class="{{ $post->status == 'draft' ? 'badge badge-info' : ($post->status == 'published' ? 'badge badge-success' : 'badge badge-danger') }}">{{ ucwords($post->status) }}</span>
                     </td>
+                    <td>
+                    @foreach ($post->categories as $category)
+                        <span class="badge badge-success">{{$category->title}}</span>
+                    @endforeach
+                    </td>
                     <td>{{ ucwords($post->user->name) }}</td>
                     <td><a href="{{ route('post.edit', $post->id) }}" class="mx-2"><i
                                 class="fa fa-edit fa-lg"></i></a>
                         <i role="button" class="fa fa-trash fa-lg  text-danger deleteHandler"
                             data-url="{{ route('post.destroy', $post->id) }}"></i>
+                        <i role="button" class="fa fa-eye fa-lg mx-2 text-dark openModal" data-title="{{ucwords($post->title)}}" data-url="{{route('post.show',$post->id)}}"></i>
                     </td>
                 </tr>
             @endforeach
