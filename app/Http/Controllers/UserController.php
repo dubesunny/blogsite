@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.user.index',compact('users'));
+        return view('admin.user.index', compact('users'));
     }
 
     /**
@@ -34,9 +34,9 @@ class UserController extends Controller
         try {
             $attributes = $request->validated();
             User::create($attributes);
-            return response()->json(['success'=>'User Added Successfully']);
+            return response()->json(['success' => 'User Added Successfully']);
         } catch (Exception $e) {
-            return response()->json(['error'=> $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.user.edit',compact('user'));
+        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -64,13 +64,13 @@ class UserController extends Controller
     {
         try {
             $attributes = $request->validated();
-            if($attributes['password'] == null) {
+            if ($attributes['password'] == null) {
                 unset($attributes['password']);
             }
             $user->update($attributes);
-            return response()->json(['success'=>'User updated successfully']);
-        }catch(Exception $e) {
-            return response()->json(['error'=> $e->getMessage()]);
+            return response()->json(['success' => 'User updated successfully']);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
         }
 
     }
@@ -80,24 +80,35 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-       try{
-        $user->delete();
-        return response()->json(['success'=> 'User Deleted Successfully']);
-       }catch(Exception $e) {
-        return response()->json(['error'=> $e->getMessage()]);
-       }
+        try {
+            $user->delete();
+            return response()->json(['success' => 'User Deleted Successfully']);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
-    public function getUserByFilter(Request $request){
-        try{
-            if($request->filter != ''){
+    public function getUserByFilter(Request $request)
+    {
+        try {
+            if ($request->filter != '') {
                 $users = User::whereStatus($request->filter)->get();
-            }else{
+            } else {
                 $users = User::all();
             }
-            return view('admin.user.table',compact('users'));
-        }catch(Exception $e){
-            return response()->json(['error'=> $e->getMessage()]);
-         }
+            return view('admin.user.table', compact('users'));
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function sort(Request $request)
+    {
+        try {
+            $users = User::orderBy($request->sortField, $request->sortOrder)->get();
+            return view('admin.user.table', compact('users'));
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 }

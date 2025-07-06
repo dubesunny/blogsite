@@ -1,10 +1,38 @@
  <table class="table" id="dataTable">
      <thead>
          <tr>
-             <th scope="col">#</th>
-             <th scope="col">Name</th>
-             <th scope="col">Email</th>
-             <th scope="col">Phone</th>
+             <th scope="col">#
+                 <span class="sort">
+                     <i class="fa fa-sort-up sortHandle" role="button" data-field="id" data-order="asc"
+                         data-url="{{ route('usersort') }}"></i>
+                     <i class="fa fa-sort-down sortHandle" role="button" data-field="id" data-order="desc"
+                         data-url="{{ route('usersort') }}"></i>
+                 </span>
+             </th>
+             <th scope="col">Name
+                 <span class="sort">
+                     <i class="fa fa-sort-up sortHandle" role="button" data-field="name" data-order="asc"
+                         data-url="{{ route('usersort') }}"></i>
+                     <i class="fa fa-sort-down sortHandle" role="button" data-field="name" data-order="desc"
+                         data-url="{{ route('usersort') }}"></i>
+                 </span>
+             </th>
+             <th scope="col">Email
+                 <span class="sort">
+                     <i class="fa fa-sort-up sortHandle" role="button" data-field="email" data-order="asc"
+                         data-url="{{ route('usersort') }}"></i>
+                     <i class="fa fa-sort-down sortHandle" role="button" data-field="email" data-order="desc"
+                         data-url="{{ route('usersort') }}"></i>
+                 </span>
+             </th>
+             <th scope="col">Phone
+                 <span class="sort">
+                     <i class="fa fa-sort-up sortHandle" role="button" data-field="phone" data-order="asc"
+                         data-url="{{ route('usersort') }}"></i>
+                     <i class="fa fa-sort-down sortHandle" role="button" data-field="phone" data-order="desc"
+                         data-url="{{ route('usersort') }}"></i>
+                 </span>
+             </th>
              <th scope="col">Status</th>
              <th scope="col">Action</th>
          </tr>

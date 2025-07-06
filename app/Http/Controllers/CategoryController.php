@@ -110,4 +110,14 @@ class CategoryController extends Controller
             return response()->json(['error'=> $e->getMessage()]);
          }
     }
+
+    public function sort(Request $request)
+    {
+        try {
+            $categories = Category::orderBy($request->sortField, $request->sortOrder)->get();
+            return view('admin.category.table', compact('categories'));
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
 }

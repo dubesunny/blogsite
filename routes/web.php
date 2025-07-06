@@ -16,7 +16,8 @@ Route::group(
         Route::post('/attempt-login', [AuthController::class, 'attempt'])->name('attempt');
         Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
         Route::post('/sendPasswordResetLink', [AuthController::class, 'sendPasswordResetLink'])->name('sendPasswordResetLink');
-        Route::post('/reset-password/{token}', [AuthController::class,'passwordReset'])->name('password.reset');
+        Route::get('/reset-password/{token}', [AuthController::class, 'passwordReset'])->name('password.reset');
+        Route::post('/resetPassword', [AuthController::class, 'resetPassword'])->name('resetPassword');
     }
 );
 Route::group(
@@ -38,6 +39,7 @@ Route::group(
             ],
             function () {
                 Route::post('/getUserByFilter', [UserController::class, 'getUserByFilter'])->name('filter');
+                Route::post('/sort', [UserController::class, 'sort'])->name('sort');
             }
         );
 
@@ -48,6 +50,7 @@ Route::group(
             ],
             function () {
                 Route::post('/getCategoryByFilter', [CategoryController::class, 'getCategoryByFilter'])->name('filter');
+                Route::post('/sort', [CategoryController::class, 'sort'])->name('sort');
             }
         );
 
@@ -58,6 +61,7 @@ Route::group(
             ],
             function () {
                 Route::post('/getPostByFilter', [PostController::class, 'getPostByFilter'])->name('filter');
+                Route::post('/sort', [PostController::class, 'sort'])->name('sort');
             }
         );
     }

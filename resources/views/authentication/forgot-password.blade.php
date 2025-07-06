@@ -42,13 +42,13 @@
                                         @csrf
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" name="email"
-                                                id="email" aria-describedby="emailHelp"
+                                                id="email" aria-describedby="emailHelp" value="{{old('email')}}"
                                                 placeholder="Enter Email Address...">
                                             @error('email')
                                                 <p class="mx-3 text-danger"><small>{{ $message }}</small></p>
                                             @enderror
                                         </div>
-                                        <input type="submit" value="Reset Password"
+                                        <input type="submit" value="Send Link"
                                             class="btn btn-primary btn-user btn-block">
                                     </form>
                                     <hr>

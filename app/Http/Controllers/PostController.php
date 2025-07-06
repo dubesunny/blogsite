@@ -126,4 +126,14 @@ class PostController extends Controller
             return response()->json(['error'=> $e->getMessage()]);
          }
     }
+
+     public function sort(Request $request)
+    {
+        try {
+            $posts = Post::orderBy($request->sortField, $request->sortOrder)->get();
+            return view('admin.post.table', compact('posts'));
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
 }
