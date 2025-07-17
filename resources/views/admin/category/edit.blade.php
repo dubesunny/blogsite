@@ -1,19 +1,19 @@
 <form id="editCategoryForm" enctype="multipart/form-data">
     <div class="form-group">
         <label for="title" class="form-label">Title <span class="text-danger">
-            </span></label>
+            *</span></label>
         <input type="text" name="title" id="title" class="form-control" value="{{ $category->title }}">
         <p class="error-message text-danger"></p>
     </div>
     <div class="form-group">
         <label for="image" class="form-label">Image <span class="text-danger">
-            </span></label>
+            *</span></label>
         <input type="file" name="image" id="image" class="form-control" data-default-file="{{ $category->image }}">
         <p class="error-message text-danger"></p>
     </div>
     <div class="form-group">
         <label for="status" class="form-label">Status <span class="text-danger">
-            </span></label>
+            *</span></label>
         <select name="status" id="status" class="form-control">
             <option value="">Select Status</option>
             <option value="active" {{ $category->status == 'active' ?'selected':'' }}>Active</option>

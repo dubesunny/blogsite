@@ -21,6 +21,9 @@ class Category extends Model
     }
 
     public function getImageAttribute($value){
-        return asset('storage/'.$value);
+         if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+        return asset('storage/' . $value);
     }
 }
