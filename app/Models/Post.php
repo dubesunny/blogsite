@@ -19,6 +19,7 @@ class Post extends Model
         'description',
         'status'
     ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -29,5 +30,9 @@ class Post extends Model
 
     public function getImageAttribute($value){
         return asset('storage/'.$value);
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
     }
 }

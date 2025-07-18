@@ -16,13 +16,15 @@ class Card extends Component
     public $image;
     public $author;
     public $timestamp;
-    public function __construct($title,$excerpt,$image,$author,$timestamp)
+    public $href;
+    public function __construct($title,$excerpt,$image,$author,$timestamp,$href)
     {
         $this->title = $title;
         $this->excerpt = $excerpt;
         $this->image = $image;
         $this->author = $author;
         $this->timestamp = $timestamp;
+        $this->href = $href;
     }
 
     /**

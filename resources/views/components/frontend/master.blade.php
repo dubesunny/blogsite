@@ -10,7 +10,7 @@
 <body>
     <!-- Footer-->
     {{ $slot }}
-    <x-frontend.footer/>
+
     <x-frontend.blocks.script />
 </body>
 

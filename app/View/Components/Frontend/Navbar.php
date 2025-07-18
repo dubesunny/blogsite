@@ -12,9 +12,12 @@ class Navbar extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public $id;
+    public $height;
+    public function __construct($id='',$height)
     {
-        //
+        $this->id = $id;
+        $this->height = $height;
     }
 
     /**

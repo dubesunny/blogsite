@@ -70,5 +70,8 @@ Route::group(
 );
 
 Route::get('/',[FrontEndController::class,'index'])->name('index');
+Route::get('/categories/{category:slug}',[FrontEndController::class,'categories'])->name('categories');
+Route::get('/posts/{post:slug}',[FrontEndController::class,'postDetails'])->name('post.details');
 
+Route::post('/comment',[FrontEndController::class,'comment'])->name('comment')->middleware('auth');
 
