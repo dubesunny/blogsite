@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -34,6 +35,7 @@ Route::group(
         Route::resource('user', UserController::class);
         Route::resource('category', CategoryController::class);
         Route::resource('post', PostController::class);
+
         Route::group(
             [
                 'prefix' => 'user',
@@ -66,12 +68,11 @@ Route::group(
                 Route::post('/sort', [PostController::class, 'sort'])->name('sort');
             }
         );
+        Route::resource('comment', CommentController::class);
+        Route::post('like',[FrontEndController::class,'like'])->name('like');
     }
 );
 
-Route::get('/',[FrontEndController::class,'index'])->name('index');
-Route::get('/categories/{category:slug}',[FrontEndController::class,'categories'])->name('categories');
-Route::get('/posts/{post:slug}',[FrontEndController::class,'postDetails'])->name('post.details');
-
-Route::post('/comment',[FrontEndController::class,'comment'])->name('comment')->middleware('auth');
-
+Route::get('/', [FrontEndController::class, 'index'])->name('index');
+Route::get('/categories/{category:slug}', [FrontEndController::class, 'categories'])->name('categories');
+Route::get('/posts/{post:slug}', [FrontEndController::class, 'postDetails'])->name('post.details');

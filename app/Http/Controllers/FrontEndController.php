@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 class FrontEndController extends Controller
 {
@@ -17,7 +19,7 @@ class FrontEndController extends Controller
      */
     public function index()
     {
-        $categories = Category::whereStatus('active')->limit(6)->get();
+        $categories = Category::whereStatus('active')->latest()->limit(6)->get();
         $posts = Post::with(['categories' => function($q){
             $q->where('status','active');
         } , 'user' => function($q){
@@ -45,22 +47,41 @@ class FrontEndController extends Controller
         $post = $post->load(['user', 'categories' => function ($q) {
             $q->where('status', 'active');
         }]);
-        $comments = Comment::with(['replies', 'user'])->where('post_id', $post->id)->where('parent_id', null)->latest()->get();
-        return view('frontend.post-details', compact('post', 'comments'));
+        $comments = Comment::with(['replies', 'user'])->where('post_id', $post->id)->where('parent_id',null)->latest()->get();
+        $likeCount = Like::where('post_id',$post->id)->where('reaction',1)->count();
+        $dislikeCount = Like::where('post_id',$post->id)->where('reaction',0)->count();
+        $user_id = Auth::user()->id;
+        return view('frontend.post-details', compact('post', 'comments','likeCount','dislikeCount'));
     }
 
+
     /**
-     * Comment
-     */
-    public function comment(CommentRequest $request)
+     * like and dislike
+    */
+    public function like(Request $request)
     {
-        try {
-            $attributes = $request->validated();
-            $attributes['user_id'] = Auth::user()->id;
-            Comment::create($attributes);
-            return back()->with('success', 'Comment added successfully');
-        } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
+        try{
+            $userId = Auth::user()->id;
+            $attributes = $request->all();
+            $attributes['user_id'] = $userId;
+            $like = Like::where('post_id',$request->post_id)->where('user_id',$userId)->first();
+            if($request->reaction == '' &&  $like != null){
+                Like::where('id',$like->id)->delete();
+            }
+
+            if($request->reaction != '' && $like != null){
+                $like->update($attributes);
+            }
+            if($request->reaction != '' && $like == null){
+                Like::create($attributes);
+            }
+
+            $likeCount = Like::where('post_id',$request->post_id)->where('reaction',1)->count();
+            $dislikeCount = Like::where('post_id',$request->post_id)->where('reaction',0)->count();
+            return Response::json(['like'=>$likeCount,'dislike'=>$dislikeCount]);
+
+        }catch(Exception $e){
+            return Response::json(['error'=>$e->getMessage()]);
         }
     }
 }

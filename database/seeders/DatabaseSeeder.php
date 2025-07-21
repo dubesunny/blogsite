@@ -24,31 +24,37 @@ class DatabaseSeeder extends Seeder
 
         Category::create([
             'title' => 'travel',
+            'slug'=>'travel',
             'image' => asset('frontend/assets/img/post/travel.jpeg')
         ]);
 
          Category::create([
             'title' => 'sports',
+            'slug'=>'sports',
             'image' => asset('frontend/assets/img/post/sports.jpeg')
         ]);
 
          Category::create([
             'title' => 'agriculture',
+            'slug'=>'agriculture',
             'image' => asset('frontend/assets/img/post/agriculture.jpeg')
         ]);
 
          Category::create([
             'title' => 'waterfall',
+            'slug'=>'waterfall',
             'image' => asset('frontend/assets/img/post/waterfall.jpeg')
         ]);
 
          Category::create([
             'title' => 'wildlife',
+            'slug'=>'wildlife',
             'image' => asset('frontend/assets/img/post/wildlife.jpeg')
         ]);
 
          Category::create([
             'title' => 'village life',
+            'slug'=>'village-life',
             'image' => asset('frontend/assets/img/post/village.jpeg')
         ]);
     }

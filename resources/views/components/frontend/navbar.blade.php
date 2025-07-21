@@ -25,6 +25,7 @@
             </ul>
             <ul class="navbar-nav">
                 @auth
+                    <li class="nav-item fs-6 nav-link">{{ auth()->user()->name }}</li>
                     <li class="nav-item fs-6"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
                 @else
                     <li class="nav-item fs-6"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
