@@ -69,6 +69,16 @@ Route::group(
             }
         );
         Route::resource('comment', CommentController::class);
+        Route::group(
+            [
+                'prefix' => 'comment',
+                'as' => 'comment',
+            ],
+            function(){
+                Route::post('/updateStatus',[CommentController::class,'updateStatus'])->name('updateStatus');
+                Route::post('/getCommentByFilter',[CommentController::class,'getCommentByFilter'])->name('filter');
+            }
+        );
         Route::post('like',[FrontEndController::class,'like'])->name('like');
     }
 );
@@ -76,3 +86,5 @@ Route::group(
 Route::get('/', [FrontEndController::class, 'index'])->name('index');
 Route::get('/categories/{category:slug}', [FrontEndController::class, 'categories'])->name('categories');
 Route::get('/posts/{post:slug}', [FrontEndController::class, 'postDetails'])->name('post.details');
+Route::get('about',[FrontEndController::class,'about'])->name('about');
+

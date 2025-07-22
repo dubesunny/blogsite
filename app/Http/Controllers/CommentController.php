@@ -16,7 +16,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::with('user')->get();
+        return view('admin.comment.index',compact('comments'));
     }
 
     /**
@@ -34,6 +35,7 @@ class CommentController extends Controller
     {
         try {
             $attributes = $request->validated();
+            $attributes['status'] = "approved";
             $attributes['user_id'] = Auth::user()->id;
             Comment::create($attributes);
             if ($request->ajax()) {
@@ -83,7 +85,36 @@ class CommentController extends Controller
             $comment->delete();
             return Response::json(['success' => 'Comment deleted successfully']);
         } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return Response::json(['error' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * Update status of comment
+    */
+    public function updateStatus(Request $request){
+        try{
+            Comment::where('id',$request->id)->update(['status' => $request->status]);
+            return Response::json(['success' => 'Comment updated successfully']);
+        }catch(Exception $e){
+            return Response::json(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Get Comments By Filter
+    */
+    public function getCommentByFilter(Request $request){
+         try{
+            if($request->filter != ''){
+              $comments = Comment::with('user')->whereStatus($request->filter)->get();
+            }else{
+              $comments = Comment::with('user')->get();
+            }
+            return view('admin.comment.table',compact('comments'));
+        }catch(Exception $e){
+            return response()->json(['error'=> $e->getMessage()]);
+         }
+
     }
 }

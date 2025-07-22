@@ -24,7 +24,7 @@ class FrontEndController extends Controller
             $q->where('status','active');
         } , 'user' => function($q){
               $q->where('status','active');
-        }])->whereStatus('published')->latest()->cursorPaginate(6);
+        }])->whereStatus('published')->latest()->simplePaginate(7);
         return view('frontend.index', compact('categories', 'posts'));
     }
 
@@ -35,7 +35,7 @@ class FrontEndController extends Controller
     {
         $posts = Post::with('user')->whereHas('categories', function ($q) use ($category) {
             $q->where('id', $category->id);
-        })->where('status', 'published')->paginate(6);
+        })->where('status', 'published')->get();
         return view('frontend.categories', compact('posts', 'category'));
     }
 
@@ -47,11 +47,21 @@ class FrontEndController extends Controller
         $post = $post->load(['user', 'categories' => function ($q) {
             $q->where('status', 'active');
         }]);
-        $comments = Comment::with(['replies', 'user'])->where('post_id', $post->id)->where('parent_id',null)->latest()->get();
+        $comments = Comment::with(['replies', 'user'])->where('post_id', $post->id)->where('parent_id',null)->where('status','approved')->latest()->get();
         $likeCount = Like::where('post_id',$post->id)->where('reaction',1)->count();
         $dislikeCount = Like::where('post_id',$post->id)->where('reaction',0)->count();
-        $user_id = Auth::user()->id;
-        return view('frontend.post-details', compact('post', 'comments','likeCount','dislikeCount'));
+        $userId = Auth::user()?->id;
+        $reaction = Like::where('post_id',$post->id)->where('user_id',$userId)->first()?->reaction;
+        $categories = [];
+        foreach($post->categories as $category){
+            array_push($categories,$category->id);
+        }
+        $posts = Post::whereHas('categories',function($q) use ($categories){
+            $q->whereIn('id',$categories);
+        })->where('id','<>',$post->id)->withCount(['likes' => function($q){
+            $q->where('reaction',1);
+        }])->having('likes_count','>',0)->orderBy('likes_count','desc')->take(5)->get();
+        return view('frontend.post-details', compact('post', 'comments','likeCount','dislikeCount','reaction','posts'));
     }
 
 
@@ -83,5 +93,12 @@ class FrontEndController extends Controller
         }catch(Exception $e){
             return Response::json(['error'=>$e->getMessage()]);
         }
+    }
+
+    /**
+     * About Page
+    */
+    public function about(){
+        return view('frontend.about');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Str;
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
@@ -34,5 +34,13 @@ class Post extends Model
 
     public function comments(){
         return $this->hasMany(Comment::class)->whereNull('parent_id');
+    }
+
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+
+    public function getShortExcerptAttribute(){
+        return Str::words($this->excerpt,25,'.');
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Post::class);
              $table->foreignIdFor(User::class);
             // $table->unsignedBigInteger('parent_id')->nullable();
-            $table->foreignId('parent_id')->nullable()->references('id')->on('comments');
+            $table->foreignId('parent_id')->nullable()->references('id')->on('comments')->onDelete('cascade');
             $table->text('comment')->nullable();
             $table->timestamps();
         });

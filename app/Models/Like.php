@@ -15,4 +15,12 @@ class Like extends Model
         'user_id',
         'reaction'
     ];
+
+    public function post(){
+        return $this->belongsTo(Post::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

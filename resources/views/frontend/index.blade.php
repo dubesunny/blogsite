@@ -38,8 +38,7 @@
                                             class="badge rounded-pill bg-success">{{ ucwords($category->title) }}</span></a>
                                 @endforeach
                                 <p class="card-text">
-                                    <small class="text-secondary float-end"><i>Posted By <a href=""
-                                                style="text-decoration: none">{{ $posts[0]->user->name }}</a>
+                                    <small class="text-secondary float-end"><i>Posted By {{ $posts[0]->user->name }}
                                             {{ $posts[0]->created_at->diffForHumans() }}</i></small>
                                 </p>
                             </div>
@@ -51,10 +50,10 @@
                 <h3 class="text-center mb-3">All Posts</h3>
                 <div class="row">
                     @foreach ($posts->skip(1) as $post)
-                        <x-frontend.posts.card title="{{ ucwords($post->title) }}" excerpt="{{ $post->excerpt }}"
+                        <x-frontend.posts.card title="{{ ucwords($post->title) }}" excerpt="{{ $post->short_excerpt }}"
                             image="{{ $post->image }}" author="{{ $post->user->name }}"
                             timestamp="{{ $post->created_at->diffForHumans() }}"
-                            href="{{ route('post.details', $post->slug) }}" />
+                            href="{{ route('post.details', $post->slug) }}" :categories="$post->categories"  />
                     @endforeach
                 </div>
             </div>

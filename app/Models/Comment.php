@@ -13,7 +13,8 @@ class Comment extends Model
         'post_id',
         'user_id',
         'parent_id',
-        'comment'
+        'comment',
+        'status'
     ];
 
     public function post(){
@@ -25,6 +26,6 @@ class Comment extends Model
     }
 
     public function replies(){
-        return $this->hasMany(Comment::class,'parent_id')->with('replies');
+        return $this->hasMany(Comment::class,'parent_id')->where('status','approved')->with('replies');
     }
 }

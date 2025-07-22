@@ -17,7 +17,8 @@ class Card extends Component
     public $author;
     public $timestamp;
     public $href;
-    public function __construct($title,$excerpt,$image,$author,$timestamp,$href)
+    public $categories;
+    public function __construct($title,$excerpt,$image,$author,$timestamp,$href,$categories)
     {
         $this->title = $title;
         $this->excerpt = $excerpt;
@@ -25,6 +26,7 @@ class Card extends Component
         $this->author = $author;
         $this->timestamp = $timestamp;
         $this->href = $href;
+        $this->categories = $categories;
     }
 
     /**

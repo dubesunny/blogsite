@@ -1,17 +1,19 @@
 <x-frontend.master>
     <x-frontend.navbar class="bg-success" id="" height="30px" />
     <div class="container py-5">
-        <h3>{{ ucwords($post->title) }}</h3>
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-8" style="padding-right:20px; border-right: 1px solid black;">
+                <h3>{{ ucwords($post->title) }}</h3>
                 <img src="{{ $post->image }}" alt="post-image" class="w-100">
                 <div class="flex">
-                    <i role="button" class="fa fa-thumbs-up fa-sm reactBtn" id="green"
-                        data-id="{{ $post->id }}"></i> <span id="likeCount" class="fs-6">{{$likeCount}}</span>
-                    <i role="button" class="fa fa-thumbs-down fa-sm reactBtn" id="red"
-                        data-id="{{ $post->id }}"></i> <span id="dislikeCount" class="fs-6">{{$dislikeCount}}</span>
-                    <small class="text-secondary float-end mt-2"><i>Posted By <a href=""
-                                style="text-decoration: none">{{ $post->user->name }}</a>
+                    <i role="button" class="fa fa-thumbs-up fa-sm reactBtn {{ $reaction === 1 ? 'text-success' : '' }}"
+                        id="green" data-id="{{ $post->id }}"></i> <span id="likeCount"
+                        class="fs-6">{{ $likeCount }}</span>
+                    <i role="button"
+                        class="fa fa-thumbs-down fa-sm reactBtn {{ $reaction === 0 ? 'text-danger' : '' }}"
+                        id="red" data-id="{{ $post->id }}"></i> <span id="dislikeCount"
+                        class="fs-6">{{ $dislikeCount }}</span>
+                    <small class="text-secondary float-end mt-2"><i>Posted By {{ $post->user->name }}
                             {{ $post->created_at->diffForHumans() }}</i></small>
                 </div>
                 <div class="py-2">
@@ -20,6 +22,8 @@
                                 class="badge rounded-pill bg-success">{{ ucwords($category->title) }}</span></a>
                     @endforeach
                 </div>
+                <p class="fw-bold mt-0" style="text-align: justify;">{!! $post->excerpt !!}</p>
+                <p style="text-align: justify; text-justify:inter-word;">{!! $post->description !!}</p>
                 <hr>
                 <div class="my-4">
                     @auth
@@ -47,9 +51,16 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-5">
-                <p class="fw-bold mt-0">{!! $post->excerpt !!}</p>
-                <p>{!! $post->description !!}</p>
+            <div class="col-md-4" style="padding-left:10px;">
+                <h3 class="mb-2">Top liked Posts</h3>
+                @foreach ($posts as $post)
+                    <div class="card border-0">
+                        <a href="{{ route('post.details',$post->slug) }}">
+                            <img src="{{ $post->image }}" alt="No Image" class="card-img image-resize">
+                            <p class="fw-bold mt-0" style="text-align: justify;">{!! $post->short_excerpt!!}</p>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -60,6 +71,13 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $(`form[data-id="${id}"]`).removeClass('d-none');
+                $(`.replyForm`).each(function(){
+                    if($(this).data('id') != id){
+                        $(this).addClass('d-none');
+                    }
+                })
+                $('.editCommentBox').addClass('d-none');
+                $('.oldComment').removeClass('d-none');
             })
 
             $(document).on('click', '#addReply', function(e) {
@@ -81,7 +99,8 @@
                         },
                         success: function(response) {
                             toastr.success(response.success);
-                            $(`#replyForm[data-id="${id}"]`).addClass('d-none');
+                            $(`.reply[data-id="${id}"]`).val('');
+                            $(`form[data-id="${id}"]`).addClass('d-none');
                             $('#comment-card').load(location.href + " #comment-card");
                         }
                     })
@@ -92,7 +111,18 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $(`.editCommentBox[data-id="${id}"]`).removeClass('d-none')
-                $(`#oldcomment[data-id="${id}"]`).addClass('d-none');
+                $(`.oldComment[data-id="${id}"]`).addClass('d-none');
+                 $(`.editCommentBox`).each(function(){
+                    if($(this).data('id') != id){
+                        $(this).addClass('d-none');
+                    }
+                })
+                $(`.oldComment`).each(function(){
+                      if($(this).data('id') != id){
+                        $(this).removeClass('d-none');
+                    }
+                })
+                $(`.replyForm`).addClass('d-none');
             })
 
             $(document).on('keypress', '.editCommentBox', function(e) {
@@ -152,13 +182,13 @@
                 }
 
                 $.ajax({
-                    type:"POST",
-                    url:"{{ route('like') }}",
-                    data:{
-                        'post_id':post_id,
-                        'reaction':reaction,
+                    type: "POST",
+                    url: "{{ route('like') }}",
+                    data: {
+                        'post_id': post_id,
+                        'reaction': reaction,
                     },
-                    success:function(response){
+                    success: function(response) {
                         $('#likeCount').text(response.like);
                         $('#dislikeCount').text(response.dislike);
                     }

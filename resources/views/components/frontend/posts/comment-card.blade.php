@@ -1,27 +1,29 @@
 @php
     use Carbon\Carbon;
 @endphp
-<div class="card-body">
-    <p class="fw-bold card-title m-0"><img src="{{ asset('frontend/assets/img/user.png') }}"
+<div class="card-body p-1">
+    <p class="card-title m-0" style="font-size: 16px;font-weight:bold;"><img src="{{ asset('frontend/assets/img/user.png') }}"
             height="35px">{{ ucwords($username) }}{{ $repliedTo == '' ? '' : ' To ' . ucwords($repliedTo) }}<small
-            class="text-secondary float-end fs-6"><i class="fa fa-clock fa-sm"></i> {{ $timestamp }}
+            class="text-secondary float-end"><i class="fa fa-clock fa-sm"></i> {{ $timestamp }}
         </small>
     </p>
-    <p class="card-text m-1" id="oldcomment" data-id="{{ $id }}">{{ $comment }}</p>
-    <input type="text" name="comment" class="form-control editCommentBox rounded d-none mt-2"
-        value="{{ $comment }}" data-url="{{ route('comment.update', $id) }}" data-id="{{ $id }}">
-    <div class="m-1 d-flex gap-2">
-        <a role="button" class="fs-6 text-primary replyBtn" data-id="{{ $id }}">Reply</a>
-        @if ($userId == auth()->user()->id)
-            @if(Carbon::parse($createdAt)->diffInMinutes(now()) <= 30)
-                <a role="button" class="fs-6 text-primary editBtn" data-id="{{ $id }}">Edit</a>
-            @endif
-            <a role="button" class="fs-6 text-primary deleteBtn"
-                data-url="{{ route('comment.destroy', $id) }}">Delete</a>
-        @endif
-    </div>
+    <p class="card-text m-1 oldComment" data-id="{{ $id }}" style="font-size: 14px;">{{ $comment }}</p>
+    @if (Carbon::parse($createdAt)->diffInMinutes(now()) <= 30)
+        <input type="text" name="comment" class="form-control editCommentBox rounded d-none mt-2"
+            value="{{ $comment }}" data-url="{{ route('comment.update', $id) }}" data-id="{{ $id }}">
+    @endif
     @auth
-        <form class="d-none" data-id="{{ $id }}" id="replyForm">
+        <div class="m-1 d-flex gap-2">
+            <a role="button" class="text-primary replyBtn" data-id="{{ $id }}" style="font-size: 14px;">Reply</a>
+            @if ($userId == auth()->user()?->id)
+                @if (Carbon::parse($createdAt)->diffInMinutes(now()) <= 30)
+                    <a role="button" class="text-primary editBtn" data-id="{{ $id }}" style="font-size: 14px;">Edit</a>
+                @endif
+                <a role="button" class="text-primary deleteBtn"
+                    data-url="{{ route('comment.destroy', $id) }}" style="font-size: 14px;">Delete</a>
+            @endif
+        </div>
+        <form class="d-none replyForm" data-id="{{ $id }}">
             <div class="row">
                 <div class="col">
                     <input type="text" name="comment" data-id="{{ $id }}" placeholder="Reply"
@@ -38,6 +40,5 @@
                 </div>
             </div>
         </form>
-    @endauth
-
-</div>
+    </div>
+@endauth

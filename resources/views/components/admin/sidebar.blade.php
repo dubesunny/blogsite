@@ -24,6 +24,8 @@
     <!-- Divider -->
     <x-admin.sidebar.item name="Post" icon="fa fa-image" href="{{ route('post.index') }}"
         class="{{ request()->is('post*') ? 'active' : '' }}" />
+     <x-admin.sidebar.item name="Comments" icon="fa fa-comment" href="{{ route('comment.index') }}"
+        class="{{ request()->is('comment') ? 'active' : '' }}" />
     <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Sidebar Toggler (Sidebar) -->
