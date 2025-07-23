@@ -1,7 +1,7 @@
 @props(['comments'])
 
 @if (count((array) $comments))
-    <div class="card border-0 rounded">
+    <div class="card border-0 rounded" id="comment-card">
         @foreach ($comments as $comment)
             <x-frontend.posts.comment-card id="{{ $comment->id }}" userId="{{ $comment->user_id }}"
                 username="{{ $comment->user->name }}" timestamp="{{ $comment->created_at->diffForHumans() }}"
